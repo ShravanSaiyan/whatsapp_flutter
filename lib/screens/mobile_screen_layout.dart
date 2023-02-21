@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_flutter/colors.dart';
 
+import '../widgets/contact_list.dart';
+
 class MobileScreenLayout extends StatelessWidget {
   const MobileScreenLayout({Key? key}) : super(key: key);
 
@@ -23,10 +25,16 @@ class MobileScreenLayout extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: () {},
+                  color: Colors.grey,
                   icon: const Icon(Icons.camera_alt_outlined)),
               IconButton(
-                  onPressed: () {}, icon: const Icon(Icons.search_outlined)),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))
+                  onPressed: () {},
+                  color: Colors.grey,
+                  icon: const Icon(Icons.search_outlined)),
+              IconButton(
+                  onPressed: () {},
+                  color: Colors.grey,
+                  icon: const Icon(Icons.more_vert))
             ],
             bottom: const TabBar(
               indicatorColor: tabColor,
@@ -41,7 +49,7 @@ class MobileScreenLayout extends StatelessWidget {
               ],
             ),
           ),
-          body: const Text("Mobile"),
+          body: const ContactList(),
         ));
   }
 }
