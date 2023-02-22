@@ -50,6 +50,14 @@ class MobileScreenLayout extends StatelessWidget {
             ),
           ),
           body: const ContactList(),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: tabColor,
+            onPressed: () {},
+            child: const Icon(
+              Icons.chat,
+              color: Colors.white,
+            ),
+          ),
         ));
   }
 }
