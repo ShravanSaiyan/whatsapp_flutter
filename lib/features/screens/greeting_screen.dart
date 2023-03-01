@@ -58,8 +58,7 @@ class GreetingScreen extends StatelessWidget {
                           ..onTap = () async {
                             const url =
                                 "https://whatsapp.com/legal/privacy-policy";
-                            var isUrlLaunched = await launchUrl(Uri.parse(url));
-                            if (!isUrlLaunched) print("Couldnt launch url");
+                            await launchUrl(Uri.parse(url));
                           }),
                     const TextSpan(
                         text: ' Tap "Agree and Continue" to \naccept the ',
@@ -73,8 +72,7 @@ class GreetingScreen extends StatelessWidget {
                           ..onTap = () async {
                             const url =
                                 "https://whatsapp.com/legal/privacy-policy";
-                            var isUrlLaunched = await launchUrl(Uri.parse(url));
-                            if (!isUrlLaunched) print("Couldnt launch url");
+                            await launchUrl(Uri.parse(url));
                           }),
                   ],
                 ),
