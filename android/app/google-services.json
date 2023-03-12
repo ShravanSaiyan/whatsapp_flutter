@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "793671473410-6b9vhvnbh2tn6lqbn1tumfph7159mph9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.whatsapp_flutter",
+            "certificate_hash": "5a680cd1014a05b6ca2a61d930a4bb7f266d562f"
+          }
+        },
+        {
           "client_id": "793671473410-2dl9u5ip2h7cukk8t5np1nlqjg7ef6sc.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "793671473410-2dl9u5ip2h7cukk8t5np1nlqjg7ef6sc.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "793671473410-q9fkr3a8ca1gh6o9crc54jji3cm6jt6r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.whatsappFlutter"
+              }
             }
           ]
         }

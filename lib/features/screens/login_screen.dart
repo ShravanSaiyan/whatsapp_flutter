@@ -1,21 +1,24 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_flutter/colors.dart';
+import 'package:whatsapp_flutter/features/auth/controller/auth_controller.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   static const String routeName = "/login";
 
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   var initialCountryName = "India";
-  var initialCountryCode = "91";
+  var initialCountryPhoneCode = "91";
   final phoneNumberController = TextEditingController();
   Country? country;
+  bool isValid = false;
 
   @override
   void dispose() {
@@ -32,6 +35,83 @@ class _LoginScreenState extends State<LoginScreen> {
             country = countryValue;
           });
         });
+  }
+
+  String? _validatePhoneNumber(String? phoneNumber) {
+    if (phoneNumber == null || phoneNumber.isEmpty) {
+      isValid = false;
+      return "Please enter the phone number.";
+    } else if (phoneNumber.length < 10) {
+      isValid = false;
+      return "The phone number you entered is too short";
+    }
+    isValid = true;
+    return null;
+  }
+
+  void _showDialog(String phoneNumber) {
+    final errorMessage = _validatePhoneNumber(phoneNumber);
+
+    showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            backgroundColor: senderMessageColor,
+            content: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                      text: isValid
+                          ? "You entered the phone number:\n\n"
+                          : errorMessage,
+                      style: const TextStyle(color: Colors.grey, fontSize: 16)),
+                  if (isValid)
+                    TextSpan(
+                        text:
+                            "+${country != null ? country!.phoneCode : initialCountryPhoneCode}\t$phoneNumber\n\n",
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 16)),
+                  if (isValid)
+                    const TextSpan(
+                        text:
+                            "Is this OK, or would you like to edit the number?",
+                        style: TextStyle(color: Colors.grey, fontSize: 16)),
+                ],
+              ),
+            ),
+            actions: [
+              if (isValid)
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      "EDIT",
+                      style: TextStyle(color: tabColor),
+                    )),
+              TextButton(
+                  onPressed: () {
+                    if (isValid) {
+                      sendPhoneNumber();
+                    } else {
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  child: const Text(
+                    "OK",
+                    style: TextStyle(color: tabColor),
+                  )),
+            ],
+            actionsAlignment: isValid
+                ? MainAxisAlignment.spaceBetween
+                : MainAxisAlignment.end,
+          );
+        });
+  }
+
+  void sendPhoneNumber() {
+    ref.read(authControllerProvider).signInWithPhone(
+        context, phoneNumberController.text.trim(), country!.phoneCode);
   }
 
   @override
@@ -140,8 +220,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: const EdgeInsets.only(left: 10.0),
                             child: Text(
                               country != null
-                                  ? country!.countryCode
-                                  : initialCountryCode,
+                                  ? country!.phoneCode
+                                  : initialCountryPhoneCode,
                               style: const TextStyle(fontSize: 16),
                             ),
                           )
@@ -165,6 +245,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         controller: phoneNumberController,
                         keyboardType: TextInputType.phone,
+                        onTapOutside: (_) {
+                          FocusScope.of(context).unfocus();
+                        },
+                        onSubmitted: (phoneNumber) => _showDialog(phoneNumber),
                       ),
                     )
                   ],
@@ -182,7 +266,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 25.0),
             child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () => _showDialog(phoneNumberController.text),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: tabColor,
                 ),
