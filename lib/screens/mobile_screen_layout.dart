@@ -4,6 +4,8 @@ import 'package:whatsapp_flutter/colors.dart';
 import '../widgets/contact_list.dart';
 
 class MobileScreenLayout extends StatelessWidget {
+  static const routeName = "/mobile-screen";
+
   const MobileScreenLayout({Key? key}) : super(key: key);
 
   @override

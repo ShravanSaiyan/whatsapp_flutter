@@ -37,6 +37,8 @@ dependencies:
   url_launcher: ^6.1.10
   country_picker: ^2.0.19
   flutter_riverpod: ^1.0.0
+  image_picker: ^0.8.7
+  flutter_contacts: ^1.1.6
 
 
   # The following adds the Cupertino Icons font to your application.
